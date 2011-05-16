@@ -2,15 +2,11 @@
 	<%= link_to logo, 'http://localhost:3000/pages/home' %>
 	<nav class="round">
 		<ul>
-			<li>
-				<%= link_to "Home", 'http://localhost:3000/pages/home' %>
-			</li>
-			<li>
-				<%= link_to "Help", 'http://localhost:3000/pages/help' %>
-			</li>
-			<li>
-				<%= link_to "Sign in", 'http://localhost:3000/users/new' %>
-			</li>
+			<li><%= link_to "Home", 'root_path' %></li>
+			<li><%= link_to "Help", 'help_path' %></li>
+			<li><%= link_to "Contact", 'contact_path' %></li>
+			<li><%= link_to "About", 'about_path' %></li>
+			<li><%= link_to "Sign in", 'new_path' %></li>
 		</ul>
 	</nav>
 </header>
