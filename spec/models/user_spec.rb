@@ -92,7 +92,7 @@ describe User do
     end
 
     it "should have an encrypted password" do
-      @user.should respond_to (:encrypted_password)
+      @user.should respond_to(:encrypted_password)
     end
     
     it "should set the encrypted password" do
