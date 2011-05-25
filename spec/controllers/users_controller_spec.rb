@@ -3,49 +3,55 @@ require 'spec_helper'
 describe UsersController do
   render_views
 
-describe "GET 'show'" do
-
-    before(:each) do
-      @user = Factory(:user)
-    end
-
+  describe "GET 'new'" do
     it "should be successful" do
-      get :show, :id => @user
-      response.should be_success
-    end
-
-    it "should find the right user" do
-      get :show, :id => @user
-      assigns(:user).should == @user
-    end
-  end
-
-  it "should be successful" do
       get :new
       response.should be_success
     end
-
+    
     it "should have the right title" do
       get :new
       response.should have_selector("title", :content => "Sign up")
     end
   end
-
-  it "should have a profile image" do
-    get :show, :id => @user
-    response.should have_selector("h1>img", :class => "gravatar")
+  
+  describe "GET 'show'" do
+    before(:each) do
+      @user = Factory(:user)
+    end
+    
+    it "should be successful" do
+      get :show, :id => @user
+      response.should be_success
+    end
+    
+    it "should find the right user" do
+      get :show, :id => @user
+      assigns(:user).should == @user
+    end
+    
+    it "should have the right title" do
+      get :show, :id => @user
+      response.should have_selector("title", :content => @user.name)
+    end
+    
+    it "should include the users name" do
+      get :show, :id => @user
+      response.should have_selector("h1", :content => @user.name)
+    end
+    
+    it "should have a profile image" do
+      get :show, :id => @user
+      response.should have_selector("h1>img", :class => 'gravatar')
+    end
   end
-
-
-describe "POST 'create'" do
-    #Einlogfehler ----------------------------
-    describe "failure" do
-
+  
+  describe "POST 'create'" do
+    describe 'failure' do
       before(:each) do
-        @attr = { :name => "", :email => "", :password => "",
-                  :password_confirmation => "" }
+        @attr = { :name => "", :password => "", :password_confirmation => "", :email => "" }
       end
-
+      
       it "should not create a user" do
         lambda do
           post :create, :user => @attr
@@ -63,14 +69,11 @@ describe "POST 'create'" do
       end
     end
     
-    #Erfolgreicher Login----------------------
-    describe "success" do
-
+    describe 'success' do
       before(:each) do
-        @attr = { :name => "New User", :email => "user@example.com",
-                  :password => "foobar", :password_confirmation => "foobar" }
+        @attr = { :name => "Max Mustermann", :password => "foobar123", :password_confirmation => "foobar123", :email => 'max@example.org' }
       end
-
+      
       it "should create a user" do
         lambda do
           post :create, :user => @attr
@@ -80,18 +83,12 @@ describe "POST 'create'" do
       it "should redirect to the user show page" do
         post :create, :user => @attr
         response.should redirect_to(user_path(assigns(:user)))
-      end    
-    
-    
-      it "should have a welcome message" do
-        post :create, :user => @attr
-        flash[:success].should =~ /welcome to the sample app/i
       end
-    
+      
+      it "Welcome to the sample app" do
+        post :create, :user => @attr
+        flash[:success].should =~ /Welcome to the sample app/i
+      end
     end
- 
-    
   end
-
-
-$end
+end
